@@ -17,9 +17,12 @@ namespace TicTacToe
 
         public Player(string Name, char symbol)
         {
-            playerName = Name;
-            this.symbol = symbol;
+            PlayerName = Name;
+            this.Symbol = symbol;
         }
+
+        public char Symbol { get => symbol; private set => symbol = value; }
+        public string PlayerName { get { return playerName; } private set { playerName = value; } } // same as above with different syntax
 
         /// <summary>
         /// Allows player to make a play
@@ -30,7 +33,7 @@ namespace TicTacToe
             bool isvalidInput = false;
             do
             {
-                Console.Write($"It is {playerName}'s turn. Make a board selection:  ");
+                Console.Write($"It is {PlayerName}'s turn. Make a board selection:  ");
                 isvalidInput = int.TryParse(Console.ReadLine(), out PlayerSelection);
                 if (!isvalidInput)
                 {
