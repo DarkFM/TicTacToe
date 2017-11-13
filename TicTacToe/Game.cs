@@ -40,10 +40,7 @@ namespace TicTacToe
 
                 // Player takes a turn on the board
                 while (!Board.MakePlay(playing.Symbol, playing.MakePlay()));
-
-                //Console.WriteLine($"\n{playing.PlayerName}'s Selection can be seen below:");
-                //RenderGame();
-                //Console.WriteLine("*****************************************************\n");
+                Console.WriteLine("*****************************\n");
                 
                 // get game state and break on winner/draw state
                 state = Board.gamestate(playing.Symbol);
@@ -88,10 +85,12 @@ namespace TicTacToe
             RenderGame();
             if(state == GameState.WinnerFound)
             {
-                Console.WriteLine($"The winner of this game is {playing.PlayerName}");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"The winner of this game is {playing.PlayerName}!!! Congrats");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Game Ended as a Draw");
             }
         }
