@@ -17,7 +17,11 @@ namespace TicTacToe
             squareGrid = new char[9] { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
         }
 
-        // get game state
+        /// <summary>
+        /// Gets thr current game state
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns>An enumerable indicating the current state of the game</returns>
         public GameState gamestate(char symbol)
         {
             if (squareGrid[0] == symbol && squareGrid[3] == symbol && squareGrid[6] == symbol ||
@@ -27,7 +31,7 @@ namespace TicTacToe
                  squareGrid[0] == symbol && squareGrid[1] == symbol && squareGrid[2] == symbol ||
                  squareGrid[6] == symbol && squareGrid[7] == symbol && squareGrid[8] == symbol ||
                  squareGrid[0] == symbol && squareGrid[4] == symbol && squareGrid[8] == symbol ||
-                 squareGrid[2] == symbol && squareGrid[4] == symbol && squareGrid[7] == symbol)
+                 squareGrid[2] == symbol && squareGrid[4] == symbol && squareGrid[6] == symbol)
             {
                 return GameState.WinnerFound;
             }
@@ -47,18 +51,28 @@ namespace TicTacToe
 
         }
 
-        public bool MakePlay(char square, int boardPosition)
+        /// <summary>
+        /// Allows player to make a play on the board
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <param name="boardPosition"></param>
+        /// <returns>Returns whether the play was valid or not</returns>
+        public bool MakePlay(char symbol, int boardPosition)
         {
-            // check if valid position to play in
-            if (!Char.IsWhiteSpace(squareGrid[boardPosition]))
+            // comupute only if valid play
+            if (Char.IsWhiteSpace(squareGrid[boardPosition]))
             {
-                squareGrid[boardPosition] = square;
+                squareGrid[boardPosition] = symbol;
                 return true;
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Returns the current grid to the caller
+        /// </summary>
+        /// <returns></returns>
         public char[] GetGrid()
         {
             return squareGrid;

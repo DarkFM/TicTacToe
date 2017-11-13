@@ -17,8 +17,11 @@ namespace TicTacToe
         public Game(Player player1, Player player2)
         {
             Board = new GameBoard();
-            players.Add(player1);
-            players.Add(player2);
+            players = new List<Player>
+            {
+                player1,
+                player2
+            };
         }
 
         public void StartGame()
@@ -26,21 +29,34 @@ namespace TicTacToe
             GameState state = GameState.WinnerNotFound;
 
             // initialize starting player
-            startingPlayer();
+            StartingPlayer();
             playing = (whosTurn == WhosTurn.Player1) ? players[0] : players[1];
 
             // allow for players to take turns till winner/draw state is reached
-            while (state == GameState.WinnerNotFound)
+            while (true)
             {
-                // get game state
-                state = Board.gamestate(playing.Symbol);
-                
                 // Render Game board
                 RenderGame();
 
-                // Alternate Player turns
-                whosTurn = (whosTurn == WhosTurn.Player1) ? WhosTurn.Player2 : WhosTurn.Player1;
-                playing = (whosTurn == WhosTurn.Player1) ? players[0] : players[1];
+                // Player takes a turn on the board
+                while (!Board.MakePlay(playing.Symbol, playing.MakePlay()));
+
+                //Console.WriteLine($"\n{playing.PlayerName}'s Selection can be seen below:");
+                //RenderGame();
+                //Console.WriteLine("*****************************************************\n");
+                
+                // get game state and break on winner/draw state
+                state = Board.gamestate(playing.Symbol);
+                if (state != GameState.WinnerNotFound)
+                {
+                    break;
+                }
+                else
+                {
+                    // Alternate Player turns
+                    whosTurn = (whosTurn == WhosTurn.Player1) ? WhosTurn.Player2 : WhosTurn.Player1;
+                    playing = (whosTurn == WhosTurn.Player1) ? players[0] : players[1];
+                }
 
             }
 
@@ -48,7 +64,7 @@ namespace TicTacToe
 
         }
 
-        private void startingPlayer()
+        private void StartingPlayer()
         {
             var random = new Random();
             if (random.Next(2) + 1 > 1)
@@ -60,15 +76,16 @@ namespace TicTacToe
         private void RenderGame()
         {
             var grid = Board.GetGrid();
-            Console.WriteLine($"{grid[0]} | {grid[1]} | {grid[2]}");
-            Console.WriteLine($"---+----+----");
-            Console.WriteLine($"{grid[3]} | {grid[4]} | {grid[5]}");
-            Console.WriteLine($"---+----+----");
-            Console.WriteLine($"{grid[6]} | {grid[7]} | {grid[8]}");
+            Console.WriteLine($" {grid[0]} | {grid[1]} | {grid[2]}");
+            Console.WriteLine($"---+---+---");
+            Console.WriteLine($" {grid[3]} | {grid[4]} | {grid[5]}");
+            Console.WriteLine($"---+---+---");
+            Console.WriteLine($" {grid[6]} | {grid[7]} | {grid[8]}");
         }
 
         private void DrawOrWin(GameState state)
         {
+            RenderGame();
             if(state == GameState.WinnerFound)
             {
                 Console.WriteLine($"The winner of this game is {playing.PlayerName}");

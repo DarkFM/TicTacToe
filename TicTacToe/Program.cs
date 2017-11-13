@@ -10,7 +10,11 @@ namespace TicTacToe
     {
         static void Main(string[] args)
         {
+            var Game1 = new Game(new Player("Clinton", 'X'), new Player("Jessy", 'O'));
 
+            Game1.StartGame();
+
+            Console.ReadLine();
         }
     }
 }

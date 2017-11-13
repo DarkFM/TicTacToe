@@ -30,18 +30,24 @@ namespace TicTacToe
         /// <returns>PLayer Board Selection</returns>
         public int MakePlay()
         {
-            bool isvalidInput = false;
+            bool isvalidInput;
             do
             {
-                Console.Write($"It is {PlayerName}'s turn. Make a board selection:  ");
-                isvalidInput = int.TryParse(Console.ReadLine(), out PlayerSelection);
+                Console.Write($"It is {PlayerName}'s turn. Your symbol is {symbol}. Make a board selection:  ");
+                var userInput = Console.ReadLine();
+                isvalidInput = int.TryParse(userInput, out PlayerSelection);
                 if (!isvalidInput)
                 {
                     Console.WriteLine("Please enter a valid number input between 1 - 9");
                 }
+                if(PlayerSelection > 9 || PlayerSelection < 1)
+                {
+                    Console.WriteLine("Please Enter a number Between 1 - 9");
+                    isvalidInput = false;
+                }
             } while (!isvalidInput);
 
-            return PlayerSelection;
+            return PlayerSelection - 1;
         }
     }
 }
